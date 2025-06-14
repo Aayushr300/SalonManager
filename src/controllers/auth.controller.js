@@ -170,36 +170,90 @@ exports.signUp = async (req, res) => {
   }
 };
 
+// exports.signOut = async (req, res) => {
+//   try {
+//     const user = req.user;
+//     const refreshToken = req.cookies.refreshToken;
+
+//     res.clearCookie("accessToken", {
+//       expires: new Date(Date.now()),
+//       httpOnly: true,
+//       domain: process.env.FRONTEND_DOMAIN,
+//       sameSite: false,
+//       secure: process.env.NODE_ENV == "production",
+//       path: "/",
+//     });
+//     res.clearCookie("refreshToken", {
+//       expires: new Date(Date.now()),
+//       httpOnly: true,
+//       domain: CONFIG.FRONTEND_DOMAIN_COOKIE,
+//       sameSite: false,
+//       secure: process.env.NODE_ENV == "production",
+//       path: "/",
+//     });
+//     res.clearCookie("restroprosaas__authenticated", {
+//       expires: new Date(Date.now()),
+//       domain: CONFIG.FRONTEND_DOMAIN_COOKIE,
+//       sameSite: false,
+//       secure: process.env.NODE_ENV == "production",
+//       path: "/",
+//     });
+
+//     // remove refreshToken in DB.
+//     await removeRefreshTokenDB(user.username, refreshToken);
+
+//     return res.status(200).json({
+//       success: true,
+//       message: "Logout Successful.",
+//     });
+//   } catch (error) {
+//     console.error(error);
+//     return res.status(500).json({
+//       success: false,
+//       message: "Something went wrong! Please try later!",
+//     });
+//   }
+// };
+
 exports.signOut = async (req, res) => {
   try {
     const user = req.user;
     const refreshToken = req.cookies.refreshToken;
 
+    const isProduction = process.env.NODE_ENV === "production";
+    const domain =
+      isProduction && process.env.FRONTEND_DOMAIN
+        ? process.env.FRONTEND_DOMAIN
+        : undefined;
+    const altDomain =
+      isProduction && CONFIG.FRONTEND_DOMAIN_COOKIE
+        ? CONFIG.FRONTEND_DOMAIN_COOKIE
+        : undefined;
+
+    const cookieOptions = {
+      httpOnly: true,
+      sameSite: false,
+      secure: isProduction,
+      path: "/",
+    };
+
     res.clearCookie("accessToken", {
-      expires: new Date(Date.now()),
-      httpOnly: true,
-      domain: process.env.FRONTEND_DOMAIN,
-      sameSite: false,
-      secure: process.env.NODE_ENV == "production",
-      path: "/",
-    });
-    res.clearCookie("refreshToken", {
-      expires: new Date(Date.now()),
-      httpOnly: true,
-      domain: CONFIG.FRONTEND_DOMAIN_COOKIE,
-      sameSite: false,
-      secure: process.env.NODE_ENV == "production",
-      path: "/",
-    });
-    res.clearCookie("restroprosaas__authenticated", {
-      expires: new Date(Date.now()),
-      domain: CONFIG.FRONTEND_DOMAIN_COOKIE,
-      sameSite: false,
-      secure: process.env.NODE_ENV == "production",
-      path: "/",
+      ...cookieOptions,
+      ...(domain && { domain }),
     });
 
-    // remove refreshToken in DB.
+    res.clearCookie("refreshToken", {
+      ...cookieOptions,
+      ...(altDomain && { domain: altDomain }),
+    });
+
+    res.clearCookie("restroprosaas__authenticated", {
+      sameSite: false,
+      secure: isProduction,
+      path: "/",
+      ...(altDomain && { domain: altDomain }),
+    });
+
     await removeRefreshTokenDB(user.username, refreshToken);
 
     return res.status(200).json({
