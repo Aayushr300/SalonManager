@@ -52,7 +52,7 @@ exports.signIn = async (req, res) => {
         expires: new Date(Date.now() + parseInt(CONFIG.COOKIE_EXPIRY)),
         httpOnly: true,
         domain: CONFIG.FRONTEND_DOMAIN_COOKIE,
-        sameSite: false,
+        sameSite: "none",
         secure: process.env.NODE_ENV == "production",
         path: "/",
       };
@@ -64,7 +64,7 @@ exports.signIn = async (req, res) => {
         expires: refreshTokenExpiry,
         httpOnly: true,
         domain: CONFIG.FRONTEND_DOMAIN_COOKIE,
-        sameSite: false,
+        sameSite: "none",
         secure: process.env.NODE_ENV == "production",
         path: "/",
       };
@@ -87,7 +87,7 @@ exports.signIn = async (req, res) => {
       res.cookie("restroprosaas__authenticated", true, {
         expires: new Date(Date.now() + parseInt(CONFIG.COOKIE_EXPIRY_REFRESH)),
         domain: CONFIG.FRONTEND_DOMAIN_COOKIE,
-        sameSite: false,
+        sameSite: "none",
         secure: process.env.NODE_ENV == "production",
         path: "/",
       });
@@ -179,7 +179,7 @@ exports.signUp = async (req, res) => {
 //       expires: new Date(Date.now()),
 //       httpOnly: true,
 //       domain: process.env.FRONTEND_DOMAIN,
-//       sameSite: false,
+//       sameSite: "none",
 //       secure: process.env.NODE_ENV == "production",
 //       path: "/",
 //     });
@@ -187,14 +187,14 @@ exports.signUp = async (req, res) => {
 //       expires: new Date(Date.now()),
 //       httpOnly: true,
 //       domain: CONFIG.FRONTEND_DOMAIN_COOKIE,
-//       sameSite: false,
+//       sameSite: "none",
 //       secure: process.env.NODE_ENV == "production",
 //       path: "/",
 //     });
 //     res.clearCookie("restroprosaas__authenticated", {
 //       expires: new Date(Date.now()),
 //       domain: CONFIG.FRONTEND_DOMAIN_COOKIE,
-//       sameSite: false,
+//       sameSite: "none",
 //       secure: process.env.NODE_ENV == "production",
 //       path: "/",
 //     });
@@ -232,7 +232,7 @@ exports.signOut = async (req, res) => {
 
     const cookieOptions = {
       httpOnly: true,
-      sameSite: false,
+      sameSite: "none",
       secure: isProduction,
       path: "/",
     };
@@ -248,7 +248,7 @@ exports.signOut = async (req, res) => {
     });
 
     res.clearCookie("restroprosaas__authenticated", {
-      sameSite: false,
+      sameSite: "none",
       secure: isProduction,
       path: "/",
       ...(altDomain && { domain: altDomain }),
@@ -284,7 +284,7 @@ exports.getNewAccessToken = async (req, res) => {
         expires: new Date(Date.now() + parseInt(CONFIG.COOKIE_EXPIRY)),
         httpOnly: true,
         domain: CONFIG.FRONTEND_DOMAIN_COOKIE,
-        sameSite: false,
+        sameSite: "none",
         secure: process.env.NODE_ENV == "production",
         path: "/",
       };
@@ -311,7 +311,7 @@ exports.getNewAccessToken = async (req, res) => {
         expires: new Date(Date.now()),
         httpOnly: true,
         domain: CONFIG.FRONTEND_DOMAIN_COOKIE,
-        sameSite: false,
+        sameSite: "none",
         secure: process.env.NODE_ENV == "production",
         path: "/",
       });
@@ -319,14 +319,14 @@ exports.getNewAccessToken = async (req, res) => {
         expires: new Date(Date.now()),
         httpOnly: true,
         domain: CONFIG.FRONTEND_DOMAIN_COOKIE,
-        sameSite: false,
+        sameSite: "none",
         secure: process.env.NODE_ENV == "production",
         path: "/",
       });
       res.clearCookie("restroprosaas__authenticated", {
         expires: new Date(Date.now()),
         domain: CONFIG.FRONTEND_DOMAIN_COOKIE,
-        sameSite: false,
+        sameSite: "none",
         secure: process.env.NODE_ENV == "production",
         path: "/",
       });
@@ -537,7 +537,7 @@ exports.cancelSubscription = async (req, res) => {
       expires: new Date(Date.now() + parseInt(CONFIG.COOKIE_EXPIRY)),
       httpOnly: true,
       domain: CONFIG.FRONTEND_DOMAIN_COOKIE,
-      sameSite: false,
+      sameSite: "none",
       secure: process.env.NODE_ENV == "production",
       path: "/",
     };

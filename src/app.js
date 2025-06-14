@@ -31,12 +31,13 @@ const CouponRoutes = require("./routes/coupon.routes");
 // routes import
 const { createCashfreeOrder } = require("./controllers/cashfree.controller");
 const app = express();
-var corsWhitelist = [CONFIG.FRONTEND_DOMAIN];
+const corsWhitelist = [process.env.FRONTEND_DOMAIN];
 
-var corsOptions = {
+const corsOptions = {
   credentials: true,
   origin: function (origin, callback) {
-    if (corsWhitelist.indexOf(origin) !== -1 || !origin) {
+    console.log("Incoming Origin:", origin);
+    if (corsWhitelist.includes(origin) || !origin) {
       callback(null, true);
     } else {
       callback(new Error("Not allowed by CORS"));
