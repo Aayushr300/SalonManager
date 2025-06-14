@@ -29,7 +29,7 @@
 const { CONFIG } = require("./index");
 const mysql = require("mysql2/promise");
 
-const dbUrl = new URL(CONFIG.DATABASE_URL);
+const dbUrl = new URL(process.env.DATABASE_URL);
 console.log(dbUrl);
 const pool = mysql.createPool({
   host: dbUrl.hostname,

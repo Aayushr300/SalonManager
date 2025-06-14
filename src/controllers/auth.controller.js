@@ -178,7 +178,7 @@ exports.signOut = async (req, res) => {
     res.clearCookie("accessToken", {
       expires: new Date(Date.now()),
       httpOnly: true,
-      domain: CONFIG.FRONTEND_DOMAIN_COOKIE,
+      domain: process.env.FRONTEND_DOMAIN,
       sameSite: false,
       secure: process.env.NODE_ENV == "production",
       path: "/",
@@ -367,7 +367,7 @@ exports.forgotPassword = async (req, res) => {
 
       const tokenValidity = new Date(Date.now() + 20 * 60 * 1000); // valid till next 20 mins
 
-      const resetPasswordURL = `${CONFIG.FRONTEND_DOMAIN}/reset-password?token=${token}`;
+      const resetPasswordURL = `${process.env.FRONTEND_DOMAIN}/reset-password?token=${token}`;
 
       await forgotPasswordDB(username, encryptedToken, tokenValidity);
 
