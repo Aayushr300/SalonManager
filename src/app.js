@@ -31,7 +31,7 @@ const CouponRoutes = require("./routes/coupon.routes");
 // routes import
 const { createCashfreeOrder } = require("./controllers/cashfree.controller");
 const app = express();
-const corsWhitelist = [process.env.FRONTEND_DOMAIN];
+const corsWhitelist = [CONFIG.FRONTEND_DOMAIN];
 
 const corsOptions = {
   credentials: true,
