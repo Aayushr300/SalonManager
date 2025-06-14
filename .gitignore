@@ -3,3 +3,5 @@ log
 tmp
 /public/**
 !public/.gitkeep
+.env.example
+.env
