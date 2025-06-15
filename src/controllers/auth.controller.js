@@ -51,8 +51,8 @@ exports.signIn = async (req, res) => {
       const cookieOptions = {
         expires: new Date(Date.now() + parseInt(CONFIG.COOKIE_EXPIRY)),
         httpOnly: true,
-        domain: CONFIG.FRONTEND_DOMAIN_COOKIE,
-        sameSite: "none",
+
+        sameSite: "None",
         secure: process.env.NODE_ENV == "production",
         path: "/",
       };
@@ -63,7 +63,7 @@ exports.signIn = async (req, res) => {
       const cookieRefreshTokenOptions = {
         expires: refreshTokenExpiry,
         httpOnly: true,
-        domain: CONFIG.FRONTEND_DOMAIN_COOKIE,
+
         sameSite: "none",
         secure: process.env.NODE_ENV == "production",
         path: "/",
@@ -86,8 +86,8 @@ exports.signIn = async (req, res) => {
       res.cookie("refreshToken", refreshToken, cookieRefreshTokenOptions);
       res.cookie("restroprosaas__authenticated", true, {
         expires: new Date(Date.now() + parseInt(CONFIG.COOKIE_EXPIRY_REFRESH)),
-        domain: CONFIG.FRONTEND_DOMAIN_COOKIE,
-        sameSite: "none",
+
+        sameSite: "None",
         secure: process.env.NODE_ENV == "production",
         path: "/",
       });
